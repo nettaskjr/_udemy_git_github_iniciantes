@@ -1,0 +1,278 @@
+Repositório do projeto:
+
+https://github.com/willianjusten/github-course
+
+Controle de versão:
+
+Gerenciamento das diferentes versões dos documentos
+
+O Git tira os snpashots dos arquivos, ou seja, fotos dos mesmos. Se o arquivos
+ nao mudar, ele não copia, mas faz um link simbólico para o mesmos
+ 
+Os outros sistemas trabalham com as difereças e o GIT com os estados dos arquivos
+
+História:
+
+BitKeeper guardava todo o código do kernel do linux, após um problema com a
+Linux Foundation, foi solicitado que o mesmo pagasse para manter o linux com eles.
+
+O Git foi criado pelo Linus Torvalds, para melhorar o BitKeeper. Foi melhorado:
+
+a) Velocidade
+b) Design Simples
+c) Suporte mais robusto a desenvolvimento não linear (varios branchs paralelas)
+d) Totalmente distribuido
+e) Capaz de lidar com grandes projetos
+
+O que é o Github?
+
+Serviço Web compartilhado com projetos que utilizam o Git para versionamento
+
+GIT >>>> SISTEMA DE CONTROLE DE VERSÃO
+GITHUB>> LOCAL NA WEB ONDE SE COLOCA OS ARQUIVOS VERSIONADOS
+
+Instalação do github
+
+---
+
+Configuração incial
+
+$ git config --global user.name "Nome"
+$ git config --global user.email "email@email"
+$ git config --global core.editor "editor padrão" << se não digitar nada irá 
+    utilizar o vim
+    
+$ git config user.name  << informa o nome
+$ git config user.email << informa o email
+$ git config --list     << informa tudo
+
+Inciar o repositório
+
+$ git init << incia um repositório
+
+---
+
+Ciclo de vida dos status dos arquivos
+
+a) untracked (arquivo adicionado ao repo, e ainda não estão no git)
+
+b) unmodified (está adicionado ao git, mas não foi modificado)
+
+c) modified (modificado)
+
+d) staged (para fechar a versão) -- commit e voltam para unmodified
+
+----
+
+Comandos:
+
+$ git status                -- mostra o status
+
+-- add o arquivo ao git, mas não comita
+
+$ git add nome do arquivo   -- coloca o arquivo no git  
+
+-- commit (crie uma imagem dos arquivos do repositório)
+
+$ git commit -m "Add arquivo" -- o número informado abaixo é usado para retornar
+    um determinado momento
+    a2f4f95 - momento
+    1 file  - 1 arquivo envidado
+    4 inser - 4 linhas modificadas
+[master (root-commit) a2f4f95] Add readme.md
+ 1 file changed, 4 insertions(+)
+ create mode 100644 readme.md
+ 
+-- logs
+
+$ git log   
+commit a2f4f957be4aceed28812e64993b83e1ff50d71f
+Author: Nestor <nestor.junior@gmail.com>
+Date:   Tue Feb 27 12:18:18 2018 -0300
+
+    Add readme.md
+
+
+$ git log --decorate 
+commit a2f4f957be4aceed28812e64993b83e1ff50d71f (HEAD -> master)
+Author: Nestor <nestor.junior@gmail.com>
+Date:   Tue Feb 27 12:18:18 2018 -0300
+
+    Add readme.md
+
+$ git log --author="Nestor"
+
+$ git shortlog
+
+$ git shortlog -sn (mostra por pessoa a quantidade de commits)
+
+$ git shortlog --graph (mostra as branchs de forma gráfica)
+
+$ git show Hash (9fdf5222b98bef15165eee67f88610fb6066cf24) por exemplo
+    para pegar a hash pegue façã git log e informe o número grande
+    
+-- diff
+
+$ git diff mostra as alterações que ainda não foram comitadas
+
+$ git diff --name-only
+
+$ git commit -am "Edicao no arquivo"   -a envia arquivos modificados, deletados
+    criados, ou seja todos, é bom usar sempre -am
+    
+-- desfazendo as coisas
+
+$ git checkout   -- mostra os aquivos que foram atualizados
+
+$ git checkout "nome do arquivo" -- devolve o arquivo para ultima alteração antes da edição
+
+$ git reset HEAD "nome do arquivo" -- tira o arquivo após o add
+
+LEMBRE-SE DE ESCOLHER UM COMMIT ANTES
+
+$ git reset --soft "hash" (volta o commit e os arquivos estarao em stage e deixa preparado para commitar)
+
+$ git reset --mixed "hash" (volta o commit e os arquivos estarão em modified e dexia preparado para adicionar)
+
+$ git reset --hard "hash" (volta o commit totalmente )
+
+REPOSITÓRIO NA NUVEM
+
+utilizamos o github para armazenar o código na núvem
+
+SSH
+
+Crie a chave privada e envie para o github
+
+LINKANDO O REPOSITÓRIO REMOTO
+
+veja os dados no site: https://github.com/nettaskjr/github-course
+
+1) se não existir o repositório:
+$ echo "# github-course" >> README.md
+$ git init
+$ git add README.md
+$ git commit -m "first commit"
+$ git remote add origin https://github.com/nettaskjr/github-course.git
+$ git push -u origin master
+
+2) se existir o repositório
+$ git remote add origin https://github.com/nettaskjr/github-course.git
+$ git push -u origin master
+
+>>origin identifica o repositorio original, como um alias<<<
+
+ENVIANDO OS DADOS PARA O REPOSITORIO REMOTO
+
+$ git push origin master
+
+CLONE DE REPOSITORIO
+
+$ git clone "endereço" "nome do repo" << listado no site
+
+FORK DE UM PROJETO
+
+Pega um projeto que não é seu e faz uma copia para você
+
+BRANCH
+
+È um ponteiro móvel que leva um commit
+
+ao criar um repo novo, a branc MASTER é criada
+
+Por que usar?
+
+Vantagens:
+    Posso modificar sem alterar o local principal (master)
+    Facilmente desligável 
+    Multiplas pessoas trabalhando
+    Evita conflitos 
+    
+-- Criando um branch e entra na branch
+$ git checkout -b testing
+
+-- Verificar em qual branch está (a branch atual está com *)
+$ git branch
+
+-- navegando entre as branchs
+$ git checkout testing <<< muda para branch
+
+-- apagando um branch
+$ git branc - D testing << deleta a branch
+
+-- Unindo branchs
+
+-- Merge (junta as informações em um commit novo)
+
+            PRO                                         CONTRA
+------------------------------------ ------------------------------------------   
+- Operação não destrutiva               - Commit Extra
+                                        - Histórico poluído
+                                        
+$ git merge "branch"
+                                        
+Cria-se um commit novo para receber todas as coisas
+
+-- Rebase (coloca o commit na frente do commit anterior, na frende da fila)
+
+            PRO                                         CONTRA
+------------------------------------ ------------------------------------------   
+- Evita Commits extras                  - Perde a ordem cronológica
+- Histórico Linear                      
+
+$ git rebase "branch"
+
+é melhor utilizar o rebase sempre que puder
+
+-- GITIGNORE
+
+é um arquivo no repositorio onde escrevemos o que não deve ser utilizado
+
+o arquivo deve ser criado na raiz do repositorio .gitignore e dentro dele 
+    colocamos o nome dos arquivos que não devem ser enviados por exempo:
+    *.json
+
+Texto sobre: https://git-scm.com/docs/gitignore
+Templates:   https://github.com/github/gitignore
+
+-- GIT STACH
+
+é responsavel por guardar as alterações que ainda não foram comitadas, em uma
+    arquivo, é usado quando não se terminou um serviço mas é necessario fazer
+    o commit
+       
+$ git stash <<< retira o arquivo do envio para o github
+$ git stash apply <<<< aplica as mudanças que haviam sido guardadas
+$ git stash list <<<<< mostra a listra dos stashs
+$ git stash clear <<<< limpa os stashs
+
+--- ALIAS
+
+$ git config --global alias.s status
+$ git s
+
+--- Versionando com tags (RELEASE)
+
+$ git tag -a 1.0.0 -m "Readme finalizado" <<< informa a release
+$ gti push origin master --tags
+
+-- GIT REVERT
+
+uma feature foi subido para produção e deu pau. Neste caso o revert sobe a
+    ultima versão mas não perde o histórico
+
+$ git revert "no commit que deu pau"
+
+-- Como apagar tags e branchs no remoto
+
+$ git tag -d "tag" << local
+$ git purge origin :"tag" << remoto
+
+serve para branch tb
+
+$ git purge origin :"nome da branch" <<remoto
+
+
+
+
+
